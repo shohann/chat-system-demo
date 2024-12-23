@@ -1,0 +1,66 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int    @id @default(autoincrement())
+  email     String @unique
+  userName  String @unique
+  password  String
+  firstName String
+  lastName  String
+
+  conversations Conversation[]
+  messagesSent  Message[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  @@map("users")
+}
+
+model Conversation {
+  id       Int              @id @default(autoincrement())
+  name     String?
+  type     ConversationType @default(ONE_TO_ONE)
+  isActive Boolean          @default(true)
+  users    User[]
+  messages Message[]
+
+  updatedAt DateTime @default(now())
+  createdAt DateTime @default(now())
+
+  @@map("conversations")
+}
+
+model Message {
+  id             Int           @id @default(autoincrement())
+  conversation   Conversation  @relation(fields: [conversationId], references: [id])
+  conversationId Int
+  sender         User          @relation(fields: [senderId], references: [id])
+  senderId       Int
+  message        String
+  attachments    String[]
+  status         MessageStatus
+  isDeleted      Boolean       @default(false)
+
+  updatedAt DateTime @default(now())
+  createdAt DateTime @default(now())
+
+  @@map("messages")
+}
+
+enum ConversationType {
+  ONE_TO_ONE
+  GROUP
+}
+
+enum MessageStatus {
+  SENT
+  READ
+}
