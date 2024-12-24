@@ -22,4 +22,16 @@ userRouter.get("/", async (req, res) => {
   }
 });
 
+userRouter.get("/user-conversations", async (req, res) => {
+  try {
+    const user = await userService.getUserConversations(
+      Number(req.query.userId)
+    );
+
+    res.status(200).send(user);
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = userRouter;

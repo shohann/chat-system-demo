@@ -44,3 +44,24 @@ module.exports.getUserList = async () => {
 
   return users;
 };
+
+module.exports.getUserConversations = async (userId) => {
+  const conversations = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+    include: {
+      conversations: {
+        include: {
+          messages: {
+            orderBy: {
+              createdAt: "desc",
+            },
+          },
+        },
+      },
+    },
+  });
+
+  return conversations;
+};
