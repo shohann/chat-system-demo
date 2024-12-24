@@ -154,3 +154,27 @@ module.exports.addUsersToConversation = async ({ conversationId, userIds }) => {
 
   return updatedConversation;
 };
+
+module.exports.getConversationDetails = async (conversationId) => {
+  const conversation = await prisma.conversation.findUnique({
+    where: {
+      id: conversationId,
+    },
+    include: {
+      users: {
+        select: {
+          id: true,
+          userName: true,
+          firstName: true,
+          lastName: true,
+        },
+      },
+    },
+  });
+
+  if (!conversation) {
+    throw new NotFoundError("Conversation not found.");
+  }
+
+  return conversation;
+};

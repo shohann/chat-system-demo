@@ -52,4 +52,18 @@ conversationRouter.post("/groups/add-member", async (req, res) => {
   }
 });
 
+conversationRouter.get("/details/:id", async (req, res) => {
+  try {
+    const conversationId = Number(req.params.id);
+
+    const conversation = await conversationService.getConversationDetails(
+      conversationId
+    );
+
+    res.send(conversation);
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = conversationRouter;
