@@ -66,3 +66,13 @@ module.exports.getUserConversations = async (userId) => {
 
   return conversations;
 };
+
+module.exports.findUserById = async (userId) => {
+  const user = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+  });
+
+  return user;
+};

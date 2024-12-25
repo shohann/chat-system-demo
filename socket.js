@@ -1,5 +1,6 @@
 const conversationService = require("./services/conversation.service");
 const messageService = require("./services/message.service");
+const userService = require("./services/user.service");
 let active_users = [];
 
 module.exports.socketServer = (nameSpace) => {
@@ -42,9 +43,13 @@ module.exports.socketServer = (nameSpace) => {
         attachments,
       });
 
+      const senderDetails = await userService.findUserById(senderId);
+
       socket.broadcast.to(conversationId.toString()).emit("receivedMessage", {
         id: newMessage.id,
         event: "receivedMessage",
+        senderDetails: senderDetails,
+        conversationId: newMessage.conversationId,
         message: message ? message : null,
         attachments: attachments ? attachments : null,
       });
