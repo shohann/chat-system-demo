@@ -57,8 +57,6 @@ module.exports.createGroupConversation = async ({ name, userIds }) => {
     },
   });
 
-  console.log(users);
-
   if (users.length !== userIds.length) {
     throw new NotFoundError("One or more users not found.");
   }

@@ -53,6 +53,7 @@ module.exports.getUserConversations = async (userId) => {
     include: {
       conversations: {
         include: {
+          users: true,
           messages: {
             orderBy: {
               createdAt: "desc",
