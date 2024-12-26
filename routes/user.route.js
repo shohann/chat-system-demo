@@ -22,6 +22,16 @@ userRouter.get("/", async (req, res) => {
   }
 });
 
+userRouter.get("/:id", async (req, res) => {
+  try {
+    const user = await userService.findUserById(Number(req.params.id));
+
+    res.status(200).send(user);
+  } catch (error) {
+    next(error);
+  }
+});
+
 userRouter.get("/user-conversations", async (req, res) => {
   try {
     const user = await userService.getUserConversations(
