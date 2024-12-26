@@ -22,9 +22,10 @@ userRouter.get("/", async (req, res) => {
   }
 });
 
-userRouter.get("/:id", async (req, res) => {
+userRouter.get("/me", async (req, res) => {
   try {
-    const user = await userService.findUserById(Number(req.params.id));
+    const email = req.body.email;
+    const user = await userService.findUserByEmail(email);
 
     res.status(200).send(user);
   } catch (error) {

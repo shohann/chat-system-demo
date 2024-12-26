@@ -76,3 +76,13 @@ module.exports.findUserById = async (userId) => {
 
   return user;
 };
+
+module.exports.findUserByEmail = async (email) => {
+  const user = await prisma.user.findUnique({
+    where: {
+      email: email,
+    },
+  });
+
+  return user;
+};
