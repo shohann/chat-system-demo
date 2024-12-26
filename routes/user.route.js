@@ -22,7 +22,7 @@ userRouter.get("/", async (req, res) => {
   }
 });
 
-userRouter.get("/me", async (req, res) => {
+userRouter.post("/me", async (req, res) => {
   try {
     const email = req.body.email;
     const user = await userService.findUserByEmail(email);
